@@ -1,10 +1,16 @@
-add: libleakcheck.dylib
+add: lib/libleakcheck.dylib
 
-libleakcheck.dylib: pmalloc.o init.o
-	gcc -dynamiclib *.o -o $@
+lib/libleakcheck.dylib: lib tmp tmp/mallochook.o tmp/init.o
+	gcc -dynamiclib tmp/*.o -o $@
 
-%.o: %.c
+tmp/%.o: src/%.c
 	gcc -c $< -o $@
 
+tmp:
+	mkdir tmp
+
+lib:
+	mkdir lib
+
 clean:
-	rm -f *.dylib *.o
+	rm -rf lib tmp
