@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/cdefs.h>
 #include <stdbool.h>
 #include "mem_tracer.h"
@@ -15,6 +16,9 @@ void setup_hash(void) {
 
 void check_leak(void) {
     unsigned int unfreed = list_ele();
-    printf("%u memory items unfreed\n", unfreed);
+    if (0 != unfreed) {
+        printf("%u memory items unfreed\n", unfreed);
+        exit(unfreed);
+    }
     setuped = false;
 }
