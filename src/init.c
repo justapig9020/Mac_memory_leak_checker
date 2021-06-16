@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sys/cdefs.h>
 #include <stdbool.h>
+#include "mem_tracer.h"
 
 extern void setup_hash(void) __attribute__ ((constructor));
 extern void check_leak(void) __attribute__ ((destructor));
@@ -8,11 +9,12 @@ extern void check_leak(void) __attribute__ ((destructor));
 bool setuped = false;
 
 void setup_hash(void) {
-    printf("Init\n");
+    printf(""); // pre-init the printf buffer to avoid tracing it
     setuped = true;
 }
 
 void check_leak(void) {
-    printf("Terminate\n");
+    unsigned int unfreed = list_ele();
+    printf("%u memory items unfreed\n", unfreed);
     setuped = false;
 }
