@@ -1,4 +1,4 @@
-TESTS := $(patsubst test/%.c,test/target/%,$(wildcard test/*.c))
+TEST_ITEMS = $(patsubst test/%.c,test/target/%,$(wildcard test/*.c))
 INC = -I./uthash/include -I./include
 
 all: lib/libleakcheck.dylib
@@ -15,16 +15,13 @@ tmp:
 lib:
 	mkdir -p lib
 
-test: $(TESTS) all
+test: test/target $(TEST_ITEMS) all
 	@./test/run_test.sh
 
-test/target/%: test/target/%.o
+test/target/%: test/%.c
 	gcc $< -o $@
 
-test/target/%.o: test/%.c test_target
-	gcc -c $< -o $@
-
-test_target:
+test/target:
 	mkdir -p test/target
 
 clean:
