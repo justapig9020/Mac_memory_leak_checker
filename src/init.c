@@ -19,6 +19,8 @@ void check_leak(void) {
     if (0 != unfreed) {
         printf("%u memory items unfreed\n", unfreed);
         exit(unfreed);
+    } else {
+        printf("No memory leak\n");
     }
     setuped = false;
 }
