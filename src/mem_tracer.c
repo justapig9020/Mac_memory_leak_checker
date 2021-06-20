@@ -6,16 +6,18 @@
 
 typedef struct {
     void *addr;
+    size_t size;
     UT_hash_handle hh;
 } ele_t;
 
 ele_t *hash = NULL;
 
-bool add_ele(void *addr) {
+bool add_ele(void *addr, size_t size) {
     ele_t *e = malloc(sizeof(ele_t));
     if (!e)
         return false;
     e->addr = addr;
+    e->size = size;
     HASH_ADD_PTR(hash, addr, e);
     return true;
 }
@@ -36,7 +38,7 @@ int list_ele() {
     if (0 != num) {
         ele_t *iter;
         for (iter = hash; NULL != iter; iter = iter->hh.next)
-            printf("Unfreed address %p\n", iter->addr);
+            printf("Unfreed address %p: size %lu\n", iter->addr, iter->size);
     }
     return num;
 }

@@ -10,17 +10,17 @@ __attribute__ ((section ("__DATA,__interpose"))) = { (const void*)(unsigned long
 extern bool setuped; // set by constructor
 
 void *hacked_malloc(size_t size){
-    void *ret = malloc(size);
+    void *addr = malloc(size);
 
     if (setuped) {
-        if (!ret) {
+        if (!addr) {
             printf("Malloc failed\n");
             return NULL;
         }
-        if (!add_ele(ret))
+        if (!add_ele(addr, size))
             printf("Add ele failed\n");
     }
-    return ret;
+    return addr;
 }
 
 void hacked_free(void *addr){
