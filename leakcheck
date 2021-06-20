@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "$1" = "" ]
+then
+    echo "Help"
+    exit 0
+fi
+
+path=$(dirname $0)
+checker="$path"/lib/libleakcheck.dylib
+DYLD_INSERT_LIBRARIES=$checker $@
+exit $?
